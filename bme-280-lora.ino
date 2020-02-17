@@ -14,6 +14,10 @@
 
 CayenneLPP lpp(51);
 
+//timer deep sleep
+#define uS_TO_S_FACTOR 1000000ULL  /* Conversion factor for micro seconds to seconds */
+int TIME_TO_SLEEP = 60;       /* Time ESP32 will go to sleep (in seconds) */
+
 /*#include <SPI.h>
   #define BME_SCK 18
   #define BME_MISO 19
@@ -114,6 +118,13 @@ void onEvent (ev_t ev) {
       }
       // Schedule next transmission
       os_setTimedCallback(&sendjob, os_getTime() + sec2osticks(TX_INTERVAL), do_send);
+      delay(2000);
+      Serial.println("Going to sleep now");
+      //Go to sleep now
+      //enable timer
+      esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR);
+      delay(2000);
+      esp_deep_sleep_start();
       break;
     case EV_LOST_TSYNC:
       Serial.println(F("EV_LOST_TSYNC"));
