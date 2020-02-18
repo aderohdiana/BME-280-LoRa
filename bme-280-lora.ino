@@ -40,16 +40,16 @@ unsigned long previousMillis = 0; // millis() returns an unsigned long.
 // LoRaWAN NwkSKey, network session key
 // This is the default Semtech key, which is used by the early prototype TTN
 // network.
-static const PROGMEM u1_t NWKSKEY[16] = { 0x6E, 0xAF, 0x87, 0xDC, 0x16, 0x83, 0x94, 0x93, 0xEF, 0x1C, 0x9E, 0x0A, 0xDC, 0x11, 0x40, 0x7B };
+static const PROGMEM u1_t NWKSKEY[16] = { 0xA0, 0x3D, 0x68, 0x66, 0x16, 0x65, 0x2A, 0x08, 0xE8, 0x95, 0xB2, 0x30, 0xD4, 0x97, 0xBC, 0x48 };
 
 // LoRaWAN AppSKey, application session key
 // This is the default Semtech key, which is used by the early prototype TTN
 // network.
-static const u1_t PROGMEM APPSKEY[16] = { 0x96, 0x08, 0xD2, 0xBC, 0x16, 0xD5, 0x44, 0xC6, 0xF4, 0x9D, 0x99, 0x90, 0xAD, 0x94, 0x3F, 0x96 };
+static const u1_t PROGMEM APPSKEY[16] = { 0xEA, 0xB5, 0x52, 0x73, 0xC5, 0x82, 0x29, 0xA1, 0xA5, 0x8B, 0xEF, 0x22, 0xD7, 0x12, 0x6C, 0xDA };
 
 // LoRaWAN end-device address (DevAddr)
 // See http://thethingsnetwork.org/wiki/AddressSpace
-static const u4_t DEVADDR = 0x26041D8E; // <-- Change this address for every node!
+static const u4_t DEVADDR = 0x2604130A; // <-- Change this address for every node!
 
 // These callbacks are only used in over-the-air activation, so they are
 // left empty here (we cannot leave them out completely unless
@@ -118,13 +118,13 @@ void onEvent (ev_t ev) {
       }
       // Schedule next transmission
       os_setTimedCallback(&sendjob, os_getTime() + sec2osticks(TX_INTERVAL), do_send);
-      delay(2000);
-      Serial.println("Going to sleep now");
-      //Go to sleep now
-      //enable timer
-      esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR);
-      delay(2000);
-      esp_deep_sleep_start();
+//      delay(50);
+//      Serial.println("Going to sleep now");
+//      //Go to sleep now
+//      //enable timer
+//      esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR);
+//      delay(50);
+//      esp_deep_sleep_start();
       break;
     case EV_LOST_TSYNC:
       Serial.println(F("EV_LOST_TSYNC"));
@@ -250,7 +250,7 @@ void setup() {
 }
 
 void loop() {
-  //  printDataSensor();
+  // printDataSensor();
   //  delay(delayTime);
 
   //  unsigned long currentMillis = millis(); // grab current time
@@ -267,6 +267,10 @@ void loop() {
 
 void printDataSensor() {
   lpp.reset();
+  lpp.addDigitalInput(1, bme.readTemperature());
+  lpp.addDigitalInput(2, bme.readPressure() / 100.0F);
+  lpp.addDigitalInput(3, bme.readAltitude(SEALEVELPRESSURE_HPA));
+  lpp.addDigitalInput(4, bme.readHumidity());
   Serial.print("Temperature = ");
   Serial.print(bme.readTemperature());
   Serial.println(" *C");
@@ -289,9 +293,6 @@ void printDataSensor() {
   Serial.println(" %");
 
   Serial.println();
-  lpp.addDigitalInput(1, bme.readTemperature());
-  lpp.addDigitalInput(2, bme.readPressure() / 100.0F);
-  lpp.addDigitalInput(3, bme.readAltitude(SEALEVELPRESSURE_HPA));
-  lpp.addDigitalInput(4, bme.readHumidity());
+
 
 }
