@@ -40,16 +40,16 @@ unsigned long previousMillis = 0; // millis() returns an unsigned long.
 // LoRaWAN NwkSKey, network session key
 // This is the default Semtech key, which is used by the early prototype TTN
 // network.
-static const PROGMEM u1_t NWKSKEY[16] = { 0xA0, 0x3D, 0x68, 0x66, 0x16, 0x65, 0x2A, 0x08, 0xE8, 0x95, 0xB2, 0x30, 0xD4, 0x97, 0xBC, 0x48 };
+static const PROGMEM u1_t NWKSKEY[16] = { 0x00, 0x3D, 0x68, 0x66, 0x16, 0x65, 0x2A, 0x08, 0xE8, 0x95, 0xB2, 0x30, 0xD4, 0x97, 0xBC, 0x00 };
 
 // LoRaWAN AppSKey, application session key
 // This is the default Semtech key, which is used by the early prototype TTN
 // network.
-static const u1_t PROGMEM APPSKEY[16] = { 0xEA, 0xB5, 0x52, 0x73, 0xC5, 0x82, 0x29, 0xA1, 0xA5, 0x8B, 0xEF, 0x22, 0xD7, 0x12, 0x6C, 0xDA };
+static const u1_t PROGMEM APPSKEY[16] = { 0x00, 0xB5, 0x52, 0x73, 0xC5, 0x82, 0x29, 0xA1, 0xA5, 0x8B, 0xEF, 0x22, 0xD7, 0x12, 0x6C, 0x00 };
 
 // LoRaWAN end-device address (DevAddr)
 // See http://thethingsnetwork.org/wiki/AddressSpace
-static const u4_t DEVADDR = 0x2604130A; // <-- Change this address for every node!
+static const u4_t DEVADDR = 0x26041300; // <-- Change this address for every node!
 
 // These callbacks are only used in over-the-air activation, so they are
 // left empty here (we cannot leave them out completely unless
